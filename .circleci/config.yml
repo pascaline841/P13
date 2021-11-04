@@ -4,8 +4,7 @@ orbs:
   python: circleci/python@1.2
   docker: circleci/docker@1.7.0
   heroku: circleci/heroku@1.2.6
-  sentry-release: mcquaig/sentry-release@0.0.1
-
+  
 jobs:
   build-and-test: 
     docker:
@@ -68,7 +67,3 @@ workflows:
             branches:
               only:
                 - master
-      - adhawk/sentry-release:
-          sentry-org: ${SENTRY_ORG}
-          sentry-project: ${SENTRY_PROJECT}
-          sentry-environment: production
