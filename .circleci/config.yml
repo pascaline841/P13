@@ -4,6 +4,7 @@ orbs:
   python: circleci/python@1.2
   docker: circleci/docker@1.7.0
   heroku: circleci/heroku@1.2.6
+  sentry-release: mcquaig/sentry-release@0.0.1
 
 jobs:
   build-and-test: 
@@ -50,19 +51,11 @@ jobs:
             HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a ${APP_NAME} web
             
   deploy_sentry:
-    docker: 
-      - image: circleci/node:4.8.2
-    environment:
-      SENTRY_ORG: $SENTRY_ORG
-      SENTRY_PROJECT: $SENTRY_PROJECT
     steps:
-      - checkout # check out the code in the project directory
-      - run: | 
-          curl -sL https://sentry.io/get-cli/ | bash
-          export SENTRY_RELEASE=$(sentry-cli releases propose-version)
-          sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
-          sentry-cli releases set-commits --auto $SENTRY_RELEASE
-          sentry-cli releases finalize $SENTRY_RELEASE
+      - adhawk/sentry-release:
+          sentry-org: ${SENTRY_ORG}
+          sentry-project: ${SENTRY_PROJECT}
+          sentry-environment: production
 workflows:
   build-test-deploy:
     jobs:
