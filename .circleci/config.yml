@@ -1,4 +1,26 @@
-docker-build-and-push:
+version: 2.1
+
+orbs:
+  python: circleci/python@1.2
+  docker: circleci/docker@1.7.0
+  heroku: circleci/heroku@1.2.6
+
+jobs:
+  build-and-test: 
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: Run tests
+          command: pytest
+      - run:
+          name: Linting flake8
+          command: flake8
+
+  docker-build-and-push:
     machine: true
     steps:
      - checkout
