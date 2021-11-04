@@ -81,7 +81,7 @@ workflows:
             branches:
               only:
                 - master
-      - deploy_sentry
+      - deploy_sentry:
           filters:
             branches:
               only:
