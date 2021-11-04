@@ -24,7 +24,6 @@ def move_lettings(apps, schema_editor):
 
         NewLetting.objects.bulk_create(objs)
     except LookupError:
-        print("Pascaline a raté quelque chose dans sa mise en place :P")
         return
 
 class Migration(migrations.Migration):

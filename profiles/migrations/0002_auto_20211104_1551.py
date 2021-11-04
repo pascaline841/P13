@@ -12,7 +12,6 @@ def transfert_profiles(apps, schema_editor):
                 user=profile.user, favorite_city=profile.favorite_city
             )
     except LookupError:
-        print("Pascaline a raté quelque chose dans sa mise en place :P")
         return
 
 
