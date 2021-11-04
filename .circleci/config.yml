@@ -48,6 +48,24 @@ jobs:
             HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
             HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a ${APP_NAME} web
             HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a ${APP_NAME} web
+            
+  deploy_sentry:
+    docker: 
+      - image: circleci/node:4.8.2
+    environment:
+      SENTRY_ORG: my-org
+      SENTRY_PROJECT: my-project
+    branches:
+      only:
+        - master
+    steps:
+      - checkout # check out the code in the project directory
+      - run: | 
+          curl -sL https://sentry.io/get-cli/ | bash
+          export SENTRY_RELEASE=$(sentry-cli releases propose-version)
+          sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
+          sentry-cli releases set-commits --auto $SENTRY_RELEASE
+          sentry-cli releases finalize $SENTRY_RELEASE
 workflows:
   build-test-deploy:
     jobs:
