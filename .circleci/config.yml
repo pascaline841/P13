@@ -49,13 +49,7 @@ jobs:
             HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
             HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a ${APP_NAME} web
             HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a ${APP_NAME} web
-            
-  deploy_sentry:
-    steps:
-      - adhawk/sentry-release:
-          sentry-org: ${SENTRY_ORG}
-          sentry-project: ${SENTRY_PROJECT}
-          sentry-environment: production
+
 workflows:
   build-test-deploy:
     jobs:
@@ -74,8 +68,7 @@ workflows:
             branches:
               only:
                 - master
-      - deploy_sentry:
-          filters:
-            branches:
-              only:
-                - master
+      - adhawk/sentry-release:
+          sentry-org: ${SENTRY_ORG}
+          sentry-project: ${SENTRY_PROJECT}
+          sentry-environment: production
