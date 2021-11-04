@@ -53,11 +53,8 @@ jobs:
     docker: 
       - image: circleci/node:4.8.2
     environment:
-      SENTRY_ORG: my-org
-      SENTRY_PROJECT: my-project
-    branches:
-      only:
-        - master
+      SENTRY_ORG: $SENTRY_ORG
+      SENTRY_PROJECT: $SENTRY_PROJECT
     steps:
       - checkout # check out the code in the project directory
       - run: | 
@@ -85,3 +82,7 @@ workflows:
               only:
                 - master
       - deploy_sentry
+          filters:
+            branches:
+              only:
+                - master
