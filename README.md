@@ -1,6 +1,8 @@
-## Résumé
-
-Site web d'Orange County Lettings
+<h1 align="center">Deploy app - ORANGE COUNTY LETTING - OpenClassRooms Project 13</h1>
+<br>
+<br>
+Ce script Python est le 13e projet réalisé dans le cadre d'une formation chez OpenClassrooms.
+<br>
 
 ## Développement local
 
